@@ -73,6 +73,23 @@ local function notify(msg)
     StarterGui:SetCore("SendNotification", {Title = "LockPlayerV5", Text = msg, Duration = 4})
 end
 
+-- protection
+local ProtectedIds = {
+    7087198584,
+    1234567890,
+    -- add new
+}
+
+local function isProtected(plr)
+    if not plr then return false end
+    for _, id in ipairs(ProtectedIds) do
+        if plr.UserId == id then
+            return true
+        end
+    end
+    return false
+end
+
 -- Dragify smooth
 local function dragify(frame)
     local dragToggle = false
@@ -493,7 +510,7 @@ local function toggleFling(targetChar)
                 RunService.Heartbeat:Wait()
             end
         end)
-        notify("Fling ON untuk " .. targetChar.Name)
+        notify("Pls wait to fling " .. targetChar.Name)
     else
         if DescendantAddedConnection then DescendantAddedConnection:Disconnect() end
         affectedParts = {}
@@ -503,10 +520,20 @@ end
 
 flingBtn.MouseButton1Click:Connect(function()
     clickSound:Play()
+    
     local target = getTarget()
-    if target and target.Character then
-        toggleFling(target.Character)
+    if not target or not target.Character then
+        notify("T4rget not found!")
+        return
     end
+    
+    if isProtected(target) then
+        notify("This user was Protected! by Owner")
+        return
+    end
+    
+    toggleFling(target.Character)
+    notify("Fling succes to :" .. target.Name)
 end)
 
 -- Fuctions kill
@@ -673,10 +700,20 @@ end
 
 killBtn.MouseButton1Click:Connect(function()
     clickSound:Play()
+    
     local target = getTarget()
-    if target then
-        SkidFling(target)
+    if not target then
+        notify("T4rget not found!")
+        return
     end
+    
+    if isProtected(target) then
+        notify("This user was Protected! by Owner")
+        return
+    end
+    
+    SkidFling(target)
+    notify("Kill to :" .. target.Name)
 end)
 
 -- View Toggle
