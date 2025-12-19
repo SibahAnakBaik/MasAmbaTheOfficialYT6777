@@ -727,36 +727,97 @@ end
 toggleBtn.MouseButton1Click:Connect(toggleGUI)
 closeBtn.MouseButton1Click:Connect(toggleGUI)
 
--- Title Script
-spawn(function()
-    repeat task.wait() until LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Head")
-
-    local RE = game:GetService("ReplicatedStorage"):WaitForChild("RE", 5)
-    if not RE then return end
-
-    local rpRemote = RE:FindFirstChild("1RPNam1eTex1t")
-    if not rpRemote then return end
-
-    local namaToxic = "LockPlayerV5 Ultimate| By: sibah_txt Loaded! 🚀"
-
-    -- Fire 
-    rpRemote:FireServer("RolePlayName", namaToxic)
-
-    -- Limit
-    LocalPlayer.CharacterAdded:Connect(function()
-        task.wait(1)
-        pcall(function()
-            rpRemote:FireServer("RolePlayName", namaToxic)
-        end)
-    end)
-
-    -- Notif
-    game.StarterGui:SetCore("SendNotification", {
-        Title = "Script Loaded",
-        Text = "Enjoy",
-        Duration = 4
-    })
+-- Execute after GUI is loaded with error handling
+local success, err = pcall(function()
+    local args = {
+        [1] = "RolePlayName",
+        [2] = "Script LockPlayerV5 Loaded! Username : " .. player.Name
+    }
+    local replicatedStorage = game:GetService("ReplicatedStorage")
+    local re = replicatedStorage:FindFirstChild("RE")
+    local remote = re and re:FindFirstChild("1RPNam1eTex1t")
+    if remote then
+        remote:FireServer(unpack(args))
+    else
+        error("RemoteEvent '1RPNam1eTex1t' tidak ditemukan di ReplicatedStorage.RE")
+    end
 end)
 
+if not success then
+    notify("Gagal menjalankan RolePlayName: " .. tostring(err))
+end
+
 -- Remove Void
-game.Workspace.FallenPartsDestroyHeight = 0/0
+game.Workspace.FallenPartsDestroyHeight = 0/08
+
+-- Esp Script Owner
+local espHighlights = {}
+local function applyESP(p, labelText)
+    if espHighlights[p] then return end 
+
+    local function onCharacterAdded(char)
+        local highlight = Instance.new("Highlight")
+        highlight.Name = "TheHighlight"
+        highlight.FillColor = Color3.fromRGB(128, 0, 128)
+        highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
+        highlight.FillTransparency = 0.5
+        highlight.OutlineTransparency = 0
+        highlight.Parent = char
+
+        local billboard = Instance.new("BillboardGui")
+        billboard.Name = "ScriptLabel"
+        billboard.Adornee = char:WaitForChild("Head")
+        billboard.Size = UDim2.new(0, 200, 0, 50)
+        billboard.StudsOffset = Vector3.new(0, 3, 0)
+        billboard.AlwaysOnTop = true
+        billboard.Parent = char
+
+        local textLabel = Instance.new("TextLabel")
+        textLabel.Size = UDim2.new(1, 0, 1, 0)
+        textLabel.BackgroundTransparency = 1
+        textLabel.Text = labelText
+        textLabel.Font = Enum.Font.GothamBold
+        textLabel.TextSize = 18
+        textLabel.TextColor3 = Color3.fromRGB(255, 0, 255)
+        textLabel.Parent = billboard
+
+        espHighlights[p] = {highlight, billboard}
+    end
+
+    if p.Character then
+        onCharacterAdded(p.Character)
+    end
+    p.CharacterAdded:Connect(onCharacterAdded)
+end
+
+local function checkForSpecialPlayers()
+    for _, p in ipairs(Players:GetPlayers()) do
+        if p.Name == "Asdd5644" then
+            applyESP(p, "Developer Script")
+        elseif p.Name == "ZADa_62849" then
+            applyESP(p, "The Hunter")
+        end
+    end
+end
+
+-- check player
+checkForSpecialPlayers()
+
+-- The player
+Players.PlayerAdded:Connect(function(p)
+    if p.Name == "Asdd5644" then
+        applyESP(p, "Developer Script")
+    elseif p.Name == "ZADa_62849" then
+        applyESP(p, "The Hunter")
+    end
+end)
+
+-- clear esp owner
+Players.PlayerRemoving:Connect(function(p)
+    if espHighlights[p] then
+        for _, obj in ipairs(espHighlights[p]) do
+            obj:Destroy()
+        end
+        espHighlights[p] = nil
+    end
+end) 
