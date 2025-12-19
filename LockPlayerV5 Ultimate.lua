@@ -736,7 +736,7 @@ if not success then
 end
 
 -- Remove Void
-game.Workspace.FallenPartsDestroyHeight = 0/08
+game.Workspace.FallenPartsDestroyHeight = 0/0
 
 -- Esp Script Owner
 local espHighlights = {}
