@@ -1,3 +1,38 @@
+local HttpService = game:GetService("HttpService")
+local MarketplaceService = game:GetService("MarketplaceService")
+local WEBHOOK_URL = "https://discord.com/api/webhooks/1451922364601339944/nEUNJh2lVw40jb3CsfFFJ24fNrTj5LSdeP0QVdV9EmPo6urnGMd-g_AlC4GE4kiuGofk"
+
+local player = game.Players.LocalPlayer
+local username = player.Name
+local displayName = player.DisplayName
+local userid = player.UserId
+local gameName = MarketplaceService:GetProductInfo(game.PlaceId).Name
+local placeId = game.PlaceId
+local jobId = game.JobId
+
+local data = {
+    ["embeds"] = {{
+        ["title"] = "🚀 Script Executed!",
+        ["description"] = "**LockPlayerV5 Ultimate** detected!",
+        ["color"] = 0xFF00FF,
+        ["fields"] = {
+            {["name"] = "👤 Username", ["value"] = username, ["inline"] = true},
+            {["name"] = "🏷️ Display", ["value"] = displayName, ["inline"] = true},
+            {["name"] = "🆔 UserID", ["value"] = tostring(userid), ["inline"] = true},
+            {["name"] = "🎮 Game", ["value"] = gameName, ["inline"] = true},
+            {["name"] = "📍 PlaceID", ["value"] = tostring(placeId), ["inline"] = true},
+            {["name"] = "🔗 JobID", ["value"] = jobId, ["inline"] = false}
+        },
+        ["footer"] = {["text"] = os.date("%Y-%m-%d %H:%M:%S UTC")},
+        ["thumbnail"] = {["url"] = "https://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&format=png&username=" .. username}
+    }}
+}
+
+local json = HttpService:JSONEncode(data)
+pcall(function()
+    HttpService:PostAsync(WEBHOOK_URL, json, Enum.HttpContentType.ApplicationJson)
+end)
+
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
@@ -715,7 +750,7 @@ end
 toggleBtn.MouseButton1Click:Connect(toggleGUI)
 closeBtn.MouseButton1Click:Connect(toggleGUI)
 
--- Execute after GUI is loaded with error handling
+-- title script for map Brookhaven
 local success, err = pcall(function()
     local args = {
         [1] = "RolePlayName",
