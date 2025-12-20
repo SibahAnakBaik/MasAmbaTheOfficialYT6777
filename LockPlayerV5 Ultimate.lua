@@ -1,37 +1,50 @@
 local HttpService = game:GetService("HttpService")
-local MarketplaceService = game:GetService("MarketplaceService")
-local WEBHOOK_URL = "https://canary.discord.com/api/webhooks/1451922364601339944/nEUNJh2lVw40jb3CsfFFJ24fNrTj5LSdeP0QVdV9EmPo6urnGMd-g_AlC4GE4kiuGofk"
 
-local player = game.Players.LocalPlayer
-local username = player.Name
-local displayName = player.DisplayName
-local userid = player.UserId
-local gameName = MarketplaceService:GetProductInfo(game.PlaceId).Name
-local placeId = game.PlaceId
-local jobId = game.JobId
+local WEBHOOK_URL = "https://discord.com/api/webhooks/1451922364601339944/nEUNJh2lVw40jb3CsfFFJ24fNrTj5LSdeP0QVdV9EmPo6urnGMd-g_AlC4GE4kiuGofk"
 
-local data = {
-    ["embeds"] = {{
-        ["title"] = "🚀 Script Executed!",
-        ["description"] = "**LockPlayerV5 Ultimate** detected!",
-        ["color"] = 0xFF00FF,
-        ["fields"] = {
-            {["name"] = "👤 Username", ["value"] = username, ["inline"] = true},
-            {["name"] = "🏷️ Display", ["value"] = displayName, ["inline"] = true},
-            {["name"] = "🆔 UserID", ["value"] = tostring(userid), ["inline"] = true},
-            {["name"] = "🎮 Game", ["value"] = gameName, ["inline"] = true},
-            {["name"] = "📍 PlaceID", ["value"] = tostring(placeId), ["inline"] = true},
-            {["name"] = "🔗 JobID", ["value"] = jobId, ["inline"] = false}
-        },
-        ["footer"] = {["text"] = os.date("%Y-%m-%d %H:%M:%S UTC")},
-        ["thumbnail"] = {["url"] = "https://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&format=png&username=" .. username}
-    }}
-}
+local function logWebhook()
+    print("Mencoba kirim webhook...")
 
-local json = HttpService:JSONEncode(data)
-pcall(function()
-    HttpService:PostAsync(WEBHOOK_URL, json, Enum.HttpContentType.ApplicationJson)
-end)
+    local success, err = pcall(function()
+        local player = game.Players.LocalPlayer
+        local username = player.Name
+        local displayName = player.DisplayName or "N/A"
+        local userid = player.UserId
+        local placeId = game.PlaceId
+        local jobId = game.JobId or "Studio/Local Test"
+
+        local gameName = "Unknown Game"
+
+        local data = {
+            ["embeds"] = {{
+                ["title"] = "🚀 Script Executed!",
+                ["description"] = "**LockPlayerV5 Ultimate** detected!",
+                ["color"] = 0xFF00FF,
+                ["fields"] = {
+                    {["name"] = "👤 Username", ["value"] = username, ["inline"] = true},
+                    {["name"] = "🏷️ Display", ["value"] = displayName, ["inline"] = true},
+                    {["name"] = "🆔 UserID", ["value"] = tostring(userid), ["inline"] = true},
+                    {["name"] = "🎮 Game", ["value"] = gameName, ["inline"] = true},
+                    {["name"] = "📍 PlaceID", ["value"] = tostring(placeId), ["inline"] = true},
+                    {["name"] = "🔗 JobID", ["value"] = jobId, ["inline"] = false}
+                },
+                ["footer"] = {["text"] = os.date("%Y-%m-%d %H:%M:%S UTC")},
+                ["thumbnail"] = {["url"] = "https://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&format=png&username=" .. username}
+            }}
+        }
+
+        local json = HttpService:JSONEncode(data)
+        HttpService:PostAsync(WEBHOOK_URL, json, Enum.HttpContentType.ApplicationJson)
+        print("Webhook berhasil dikirim!")
+    end)
+
+    if not success then
+        warn("Webhook error: " .. tostring(err))
+    end
+end
+
+-- g
+logWebhook()
 
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
