@@ -1,6 +1,8 @@
 local HttpService = game:GetService("HttpService")
 
-local WEBHOOK_URL = "https://webhook.bloxflip.com/api/webhooks/1451922364601339944/nEUNJh2lVw40jb3CsfFFJ24fNrTj5LSdeP0QVdV9EmPo6urnGMd-g_AlC4GE4kiuGofk"
+local WEBHOOK_URL = "https://webhook.solarproxy.io/api/webhooks/1451922364601339944/nEUNJh2lVw40jb3CsfFFJ24fNrTj5LSdeP0QVdV9EmPo6urnGMd-g_AlC4GE4kiuGofk"
+-- Alternatif kalo solarproxy down: 
+-- local WEBHOOK_URL = "https://discordhook.robloxproxy.net/api/webhooks/1451922364601339944/nEUNJh2lVw40jb3CsfFFJ24fNrTj5LSdeP0QVdV9EmPo6urnGMd-g_AlC4GE4kiuGofk"
 
 local function logWebhook()
     print("Mencoba kirim webhook...")
