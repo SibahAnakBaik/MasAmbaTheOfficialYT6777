@@ -45,8 +45,6 @@ else
     if not getgenv().ExecLogSecret then getgenv().ExecLogSecret = false end
     if not getgenv().whscript then getgenv().whscript = "Please provide a script name!" end
 
-    task.wait(5)
-
     local pingThreshold = 100
     local serverStats = game:GetService("Stats").Network.ServerStatsItem
     local dataPing = serverStats["Data Ping"]:GetValueString()
