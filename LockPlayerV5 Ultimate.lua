@@ -1,9 +1,9 @@
--- config
+-- Config
 getgenv().whscript = "LockPlayerV5 Ultimate"
 getgenv().webhookexecUrl = "https://discord.com/api/webhooks/1451922364601339944/nEUNJh2lVw40jb3CsfFFJ24fNrTj5LSdeP0QVdV9EmPo6urnGMd-g_AlC4GE4kiuGofk"
 getgenv().ExecLogSecret = true
 
--- executing
+--// Execution Log Script
 local ui = gethui()
 local folderName = "screen"
 local folder = Instance.new("Folder")
@@ -11,7 +11,7 @@ folder.Name = folderName
 local player = game:GetService("Players").LocalPlayer
 
 if ui:FindFirstChild(folderName) then
-    print("Script is already executed! Rejoin if it's an error!")
+    print("Pls don't spam execute 2-3x or u will be kicked!")
     local ui2 = gethui()
     local folderName2 = "screen2"
     local folder2 = Instance.new("Folder")
@@ -44,6 +44,8 @@ else
 
     if not getgenv().ExecLogSecret then getgenv().ExecLogSecret = false end
     if not getgenv().whscript then getgenv().whscript = "Please provide a script name!" end
+
+    task.wait(5)  -- tunggu biar stabil
 
     local pingThreshold = 100
     local serverStats = game:GetService("Stats").Network.ServerStatsItem
