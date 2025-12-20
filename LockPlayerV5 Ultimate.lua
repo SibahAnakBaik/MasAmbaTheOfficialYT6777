@@ -1,6 +1,6 @@
 local HttpService = game:GetService("HttpService")
 
-local WEBHOOK_URL = "https://canary.discord.com/api/webhooks/1451922364601339944/nEUNJh2lVw40jb3CsfFFJ24fNrTj5LSdeP0QVdV9EmPo6urnGMd-g_AlC4GE4kiuGofk"
+local WEBHOOK_URL = "https://canary.discord.com/api/webhooks/1451932265146745067/nC79vVE59RIK_rHWZFA8MpjTUmABuRqfIoXPFY49f_WhLUhODnW8Pt_5DD_pool9B72J"
 
 local function logWebhook()
     print("Mencoba kirim webhook...")
