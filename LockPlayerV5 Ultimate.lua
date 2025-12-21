@@ -923,4 +923,10 @@ else
     local success, err = pcall(function()
         request_func(abcdef)
     end)
+    if success then
+        print("Pls don't spam execute 3x or u will be kicked!")
+    else
+        warn("eror?" .. tostring(err))
+    end
+end
     
