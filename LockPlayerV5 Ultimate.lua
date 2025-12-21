@@ -923,9 +923,4 @@ else
     local success, err = pcall(function()
         request_func(abcdef)
     end)
-    if success then
-        print("")
-    else
-        warn("" .. tostring(err))
-    end
-end
+    
