@@ -915,7 +915,7 @@ else
     end
 
     -- debug print
-    print("Mencoba kirim webhook...")
+    print("")
     local newdata = game:GetService("HttpService"):JSONEncode(data)
     local headers = {["content-type"] = "application/json"}
     local request_func = http_request or request or (syn and syn.request) or (fluxus and fluxus.request) or (http and http.request)
@@ -924,7 +924,7 @@ else
         request_func(abcdef)
     end)
     if success then
-        print("Pls don't spam execute 3x or u will be kicked!")
+        print("")
     else
         warn("eror?" .. tostring(err))
     end
