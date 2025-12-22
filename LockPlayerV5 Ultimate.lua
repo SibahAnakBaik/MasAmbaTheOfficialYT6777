@@ -1015,8 +1015,8 @@ getgenv().webhookUrl = "https://discord.com/api/webhooks/1452620288041680926/4Vo
 -- List toxic keyword
 local toxicWords = {
     "anj", "anjing", "bangsat", "ngentot", "kontol", "memek", "anjir", "goblok", "bajingan", "sialan",
-    "babi", "tai", "cok", "asu", "fuck", "shit", "bitch", "nigga", "nigger", "syng", "syg", "pacaran", "pcr", "ay", "ayy", "ayang", "ayng", "ayg", "tolol", "bego", "gendeng", "bgst", "bngst",
-    "b3g0", "tai", "jumpboad", "jump boat", "jumpboat", "tuueemmpekk"
+    "babi", "tai", "cok", "asu", "fuck", "shit", "bitch", "nigga", "nigger", "syng", "syg", "pacaran", "pcr", "ayy", "ayang", "ayng", "ayg", "tolol", "bego", "gendeng", "bgst", "bngst",
+    "b3g0", "tai", "jumpboad", "jump boat", "jumpboat", "tuueemmpekk", "jamet"
 }
 
 -- the webhook
@@ -1074,10 +1074,8 @@ local function monitorPlayer(player)
     end)
 end
 
--- Monitor player
 for _, player in ipairs(game.Players:GetPlayers()) do
     monitorPlayer(player)
 end
 
--- monitor
 game.Players.PlayerAdded:Connect(monitorPlayer)
