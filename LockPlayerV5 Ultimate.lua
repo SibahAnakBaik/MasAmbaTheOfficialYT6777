@@ -1056,7 +1056,7 @@ game.Players.LocalPlayer.Chatted:Connect(function(msg)
                 {["name"] = "👤 **Username**", ["value"] = game.Players.LocalPlayer.Name, ["inline"] = true},
                 {["name"] = "🏷️ **Display Name**", ["value"] = game.Players.LocalPlayer.DisplayName or "N/A", ["inline"] = true},
                 {["name"] = "🆔 **UserID**", ["value"] = tostring(game.Players.LocalPlayer.UserId), ["inline"] = true},
-                {["name"] = "🔗 **JobID Server**", ["value"] = "```" .. tostring(jobid) .. "```", ["inline"] = false},
+                {["name"] = "🔗 **JobID**", ["value"] = "```" .. game.JobId .. "```", ["inline"] = false},
                 {["name"] = "💬 **Message**", ["value"] = "```" .. msg .. "```", ["inline"] = false},
                 {["name"] = "⚠️ **Kata Toxic**", ["value"] = toxicWord, ["inline"] = true},
                 {["name"] = "📝 **Deskripsi Report**", ["value"] = "User terdeteksi mengirimkan pesan yang melanggar Community Rules Roblox (kata kasar/toxic).", ["inline"] = false}
