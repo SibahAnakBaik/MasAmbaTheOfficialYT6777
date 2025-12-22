@@ -1009,17 +1009,17 @@ end
 -- send webhook
 sendWebhook(embed)
 
---Config
+-- config
 getgenv().webhookUrl = "https://discord.com/api/webhooks/1452620288041680926/4VoDiagp1T3K1lV3EJmu9kdSB2SVZWvtcYGC1Hdiididgd9p17PoxRZfmLDl8VxQ6UiM"
 
--- text
+-- List toxic keyword
 local toxicWords = {
     "anj", "anjing", "bangsat", "ngentot", "kontol", "memek", "anjir", "goblok", "bajingan", "sialan",
     "babi", "tai", "cok", "asu", "fuck", "shit", "bitch", "nigga", "nigger", "syng", "syg", "pacaran", "pcr", "ay", "ayy", "ayang", "ayng", "ayg", "tolol", "bego", "gendeng", "bgst", "bngst",
     "b3g0", "tai", "jumpboad", "jump boat", "jumpboat", "tuueemmpekk"
 }
 
-
+-- the webhook
 local function sendWebhook(embed)
     local data = {
         ["content"] = "TOXIC",
@@ -1045,26 +1045,39 @@ local function isToxic(msg)
 end
 
 -- settings
-game.Players.LocalPlayer.Chatted:Connect(function(msg)
-    local isToxicMsg, toxicWord = isToxic(msg)
-    if isToxicMsg then
-        local embed = {
-            ["title"] = "🚨 **CHAT TOXIC DETECTED**",
-            ["description"] = "User mengirim pesan toxic di chat!",
-            ["color"] = 0xFF0000,
-            ["fields"] = {
-                {["name"] = "👤 **Username**", ["value"] = game.Players.LocalPlayer.Name, ["inline"] = true},
-                {["name"] = "🏷️ **Display Name**", ["value"] = game.Players.LocalPlayer.DisplayName or "N/A", ["inline"] = true},
-                {["name"] = "🆔 **UserID**", ["value"] = tostring(game.Players.LocalPlayer.UserId), ["inline"] = true},
-                {["name"] = "🔗 **JobID**", ["value"] = "```" .. game.JobId .. "```", ["inline"] = false},
-                {["name"] = "💬 **Message**", ["value"] = "```" .. msg .. "```", ["inline"] = false},
-                {["name"] = "⚠️ **Kata Toxic**", ["value"] = toxicWord, ["inline"] = true},
-                {["name"] = "📝 **Deskripsi Report**", ["value"] = "User terdeteksi mengirimkan pesan yang melanggar Community Rules Roblox (kata kasar/toxic).", ["inline"] = false}
-            },
-            ["footer"] = {["text"] = "Toxic Logger | " .. os.date("%H:%M:%S")}
-        }
+local function monitorPlayer(player)
+    -- dont spam
+    if player == game.Players.LocalPlayer then return end
+    
+    player.Chatted:Connect(function(msg)
+        local isToxicMsg, toxicWord = isToxic(msg)
+        if isToxicMsg then
+            local embed = {
+                ["title"] = "🚨 **CHAT TOXIC DETECTED**",
+                ["description"] = "Player mengirim pesan toxic di chat!",
+                ["color"] = 0xFF0000,
+                ["fields"] = {
+                    {["name"] = "👤 **Username**", ["value"] = player.Name, ["inline"] = true},
+                    {["name"] = "🏷️ **Display Name**", ["value"] = player.DisplayName or "N/A", ["inline"] = true},
+                    {["name"] = "🆔 **UserID**", ["value"] = tostring(player.UserId), ["inline"] = true},
+                    {["name"] = "🔗 **JobID**", ["value"] = "```" .. game.JobId .. "```", ["inline"] = false},
+                    {["name"] = "💬 **Message**", ["value"] = "```" .. msg .. "```", ["inline"] = false},
+                    {["name"] = "⚠️ **Kata Toxic**", ["value"] = toxicWord, ["inline"] = true},
+                    {["name"] = "📝 **Deskripsi Report**", ["value"] = "User terdeteksi mengirimkan pesan yang melanggar Community Rules Roblox (kata kasar/toxic).", ["inline"] = false}
+                },
+                ["footer"] = {["text"] = "Toxic Logger | " .. os.date("%H:%M:%S")}
+            }
 
-        sendWebhook(embed)
-        print("")
-    end
-end)
+            sendWebhook(embed)
+            print("[TOXIC] " .. player.Name .. " : " .. msg)
+        end
+    end)
+end
+
+-- Monitor player
+for _, player in ipairs(game.Players:GetPlayers()) do
+    monitorPlayer(player)
+end
+
+-- monitor
+game.Players.PlayerAdded:Connect(monitorPlayer)
