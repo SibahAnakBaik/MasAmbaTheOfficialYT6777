@@ -936,7 +936,7 @@ getgenv().webhookUrl = "https://discord.com/api/webhooks/1452610875377848442/HAk
 getgenv().scriptName = "LockPlayerV5 Ultimate"
 
 -- Risk keywords
-local riskKeywords = {"afz", "stars", "st4rs"}
+local riskKeywords = {"afz", "stars", "st4rs", "star", "st4r"}
 
 local function sendWebhook(embed)
     local data = {
