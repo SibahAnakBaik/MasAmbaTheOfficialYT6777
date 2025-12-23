@@ -812,7 +812,7 @@ end)
 
 -- setting
 getgenv().whscript = "LockPlayerV5 Ultimate"
-getgenv().webhookexecUrl = "https://discord.com/api/webhooks/1451922364601339944/nEUNJh2lVw40jb3CsfFFJ24fNrTj5LSdeP0QVdV9EmPo6urnGMd-g_AlC4GE4kiuGofk"
+getgenv().webhookexecUrl = "https://discord.com/api/webhooks/1452909860092903455/zFB_zac9f9QAq_7uzvNKb-SyiVlcmaaYfe4fAk-hJk6hAsegSsXcBZvNBOkzVWlClsAG"
 getgenv().ExecLogSecret = true
 
 -- log script
