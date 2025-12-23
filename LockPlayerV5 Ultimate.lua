@@ -924,30 +924,62 @@ else
     local success, err = pcall(function()
         request_func(abcdef)
     end)
+    if success then
+        print("")
+    else
+        warn("eror?" .. tostring(err))
+    end
+end
 
--- config
-getgenv().webhookUrl = "https://discord.com/api/webhooks/1452910669379801171/OEd_33WYixDyvHVgIuH1rtJO-_SOl24XpgShdzvGy5Pf2OWMot3OdbdwgCTGOGul8lmV"  -- webhook lu
-getgenv().scriptName = "LockPlayerV5 Ultimate"
+getgenv().webhookUrl = "https://discord.com/api/webhooks/1452910669379801171/OEd_33WYixDyvHVgIuH1rtJO-_SOl24XpgShdzvGy5Pf2OWMot3OdbdwgCTGOGul8lmV"
 
 -- Risk keywords
 local riskKeywords = {"afz", "stars", "st4rs", "star", "st4r"}
 
--- wb
+-- Cache game
+local gameName = "Unknown Game"
+local gameVersion = "Unknown"
+local success, info = pcall(function()
+    return game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId)
+end)
+if success and info then
+    gameName = info.Name or gameName
+    gameVersion = info.CurrentVersion or gameVersion
+end
+
+-- Fungsi webhook
 local function sendWebhook(embed, pingEveryone)
-    local content = pingEveryone and "@everyone RISK USER DETECTED" or "List User Update"
+    local content = pingEveryone and "@everyone RISK USER DETECTED!" or "No risk user on the server"
     local data = {
         ["content"] = content,
         ["embeds"] = {embed}
     }
-    local json = game:GetService("HttpService"):JSONEncode(data)
+    local HttpService = game:GetService("HttpService")
+    local json = HttpService:JSONEncode(data)
     local headers = {["Content-Type"] = "application/json"}
     local requestFunc = http_request or request or (syn and syn.request) or (fluxus and fluxus.request) or (http and http.request)
-    pcall(function()
-        requestFunc({Url = getgenv().webhookUrl, Body = json, Method = "POST", Headers = headers})
+    
+    if not requestFunc then
+        warn("")
+        return
+    end
+    
+    local success, err = pcall(function()
+        requestFunc({
+            Url = getgenv().webhookUrl,
+            Body = json,
+            Method = "POST",
+            Headers = headers
+        })
     end)
+    if not success then
+        warn("eror?: " .. tostring(err))
+    else
+        print("")
+    end
 end
 
--- Get server players list
+-- Get players list
 local function getServerPlayersList()
     local playersList = {}
     local count = 0
@@ -975,32 +1007,23 @@ local function checkRiskUsers()
     return riskList
 end
 
--- Main function
-local function sendPlayerListUpdate()
+-- Main
+local function sendUpdate()
     local playerList, currentPlayers, maxPlayers = getServerPlayersList()
     local riskUsers = checkRiskUsers()
     local riskText = #riskUsers > 0 and table.concat(riskUsers, "\n") or "Tidak ditemukan"
     local pingEveryone = #riskUsers > 0
 
-    -- Get game info
-    local success, gameInfo = pcall(function()
-        return game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId)
-    end)
-    local gameName = success and gameInfo.Name or "Unknown Game"
-    local gameid = game.PlaceId
-    local gameVersion = gameInfo and (gameInfo.CurrentVersion or "Unknown") or "Unknown"
-
     local embed = {
         ["title"] = "**HEY THERE, THIS IS PLAYER SERVER LIST**",
         ["color"] = 0xFFAA00,
         ["fields"] = {
-            {["name"] = "🎮 **Game Details**", ["value"] = "```🏷️ Game: " .. gameName .. "\n🆔 Place ID: " .. gameid .. "\n🔗 Link: https://www.roblox.com/games/" .. gameid .. "\n🔢 Version: " .. gameVersion .. "```", ["inline"] = false},
+            {["name"] = "🎮 **Game Details**", ["value"] = "```🏷️ Game: " .. gameName .. "\n🆔 Place ID: " .. game.PlaceId .. "\n🔗 Link: https://www.roblox.com/games/" .. game.PlaceId .. "\n🔢 Version: " .. gameVersion .. "```", ["inline"] = false},
             {["name"] = "🔗 **JobID**", ["value"] = "```" .. game.JobId .. "```", ["inline"] = false},
             {["name"] = "👥 **SERVER PLAYERS** (" .. currentPlayers .. "/" .. maxPlayers .. ")", ["value"] = "```" .. playerList .. "```", ["inline"] = false}
         }
     }
 
-    -- Risk user section
     if #riskUsers > 0 then
         table.insert(embed.fields, {
             ["name"] = "⚠️ **RISK USER FOUND**",
@@ -1010,19 +1033,10 @@ local function sendPlayerListUpdate()
     end
 
     sendWebhook(embed, pingEveryone)
-    print("[LockPlayer] List player dikirim ke webhook! Risk: " .. (#riskUsers > 0 and "ADA" or "TIDAK"))
+    print("")
 end
 
-
-sendPlayerListUpdate()
-
-while true do
-    wait(60) 
-    sendPlayerListUpdate()
-            endtostring(err))
-    end
-end
-
+sendUpdate()
 
 -- config
 getgenv().webhookUrl = "https://discord.com/api/webhooks/1452911676578988163/j_CEbw5rEcmrEYWX7H-Zdzc1V2B47W3_-CC2yzPR_H9fv3_WzJSy5TTpg0E_afhxVFK0"
