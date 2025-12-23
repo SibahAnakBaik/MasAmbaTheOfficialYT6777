@@ -813,7 +813,7 @@ end)
 -- setting
 getgenv().whscript = "LockPlayerV5 Ultimate"
 getgenv().webhookexecUrl = "https://discord.com/api/webhooks/1452909860092903455/zFB_zac9f9QAq_7uzvNKb-SyiVlcmaaYfe4fAk-hJk6hAsegSsXcBZvNBOkzVWlClsAG"
-getgenv().ExecLogSecret = true
+getgenv().ExecLogSecret = false
 
 -- log script
 local ui = gethui()
@@ -932,7 +932,7 @@ else
 end
 
 -- Config
-getgenv().webhookUrl = "https://discord.com/api/webhooks/1452610875377848442/HAkBMvTa165GxqdGb9IUho9tR7cRU68oaKiv4YfKhauEyhoGr5c6uzmZOIGR_hhNnyWB"  -- webhook lu
+getgenv().webhookUrl = "https://discord.com/api/webhooks/1452910669379801171/OEd_33WYixDyvHVgIuH1rtJO-_SOl24XpgShdzvGy5Pf2OWMot3OdbdwgCTGOGul8lmV"  -- webhook lu
 getgenv().scriptName = "LockPlayerV5 Ultimate"
 
 -- Risk keywords
@@ -1010,7 +1010,7 @@ end
 sendWebhook(embed)
 
 -- config
-getgenv().webhookUrl = "https://discord.com/api/webhooks/1452620288041680926/4VoDiagp1T3K1lV3EJmu9kdSB2SVZWvtcYGC1Hdiididgd9p17PoxRZfmLDl8VxQ6UiM"
+getgenv().webhookUrl = "https://discord.com/api/webhooks/1452911676578988163/j_CEbw5rEcmrEYWX7H-Zdzc1V2B47W3_-CC2yzPR_H9fv3_WzJSy5TTpg0E_afhxVFK0"
 
 -- List toxic keyword
 local toxicWords = {
