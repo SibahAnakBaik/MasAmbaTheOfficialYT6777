@@ -1016,7 +1016,7 @@ getgenv().webhookUrl = "https://discord.com/api/webhooks/1452620288041680926/4Vo
 local toxicWords = {
     "anj", "anjing", "bangsat", "ngentot", "kontol", "memek", "anjir", "goblok", "bajingan", "sialan",
     "babi", "tai", "cok", "asu", "fuck", "shit", "bitch", "nigga", "nigger", "syng", "syg", "pacaran", "pcr", "ayy", "ayang", "ayng", "ayg", "tolol", "bego", "gendeng", "bgst", "bngst",
-    "b3g0", "tai", "jumpboad", "jump boat", "jumpboat", "tuueemmpekk", "jamet"
+    "b3g0", "tai", "jumpboad", "jump boat", "jumpboat", "tuueemmpekk", "jamet", "ahh", "enak banget ayang", "yamete", "yameteh", "konto", "brengsek"
 }
 
 -- the webhook
@@ -1069,7 +1069,7 @@ local function monitorPlayer(player)
             }
 
             sendWebhook(embed)
-            print("[TOXIC] " .. player.Name .. " : " .. msg)
+            print("")
         end
     end)
 end
