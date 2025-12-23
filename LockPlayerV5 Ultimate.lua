@@ -985,13 +985,10 @@ local riskUsers = checkRiskUsers()
 local riskText = #riskUsers > 0 and table.concat(riskUsers, "\n") or "Tidak ditemukan"
 
 local embed = {
-    ["title"] = "🔥 **" .. getgenv().scriptName .. " Executed**",
+    ["title"] = "**HEY THERE, THIS IS IT LIST PLAYER SERVER**",
     ["color"] = 0xFFAA00,
     ["fields"] = {
-        {["name"] = "👤 **Username**", ["value"] = game.Players.LocalPlayer.Name, ["inline"] = true},
-        {["name"] = "🏷️ **Display Name**", ["value"] = game.Players.LocalPlayer.DisplayName or "N/A", ["inline"] = true},
-        {["name"] = "🆔 **UserID**", ["value"] = tostring(game.Players.LocalPlayer.UserId), ["inline"] = true},
-        {["name"] = "🎮 **PlaceID**", ["value"] = tostring(game.PlaceId), ["inline"] = true},
+        {["name"] = "🎮 **Game Details**", ["value"] = "```🏷️ Game: " .. gameName .. "\n🆔 Place ID: " .. gameid .. "\n🔗 Link: https://www.roblox.com/games/" .. gameid .. "\n🔢 Version: " .. gameVersion .. "```", ["inline"] = false},
         {["name"] = "🔗 **JobID**", ["value"] = "```" .. game.JobId .. "```", ["inline"] = false},
         {["name"] = "👥 **SERVER PLAYERS** (" .. currentPlayers .. "/" .. maxPlayers .. ")", ["value"] = "```" .. playerList .. "```", ["inline"] = false}
     }
