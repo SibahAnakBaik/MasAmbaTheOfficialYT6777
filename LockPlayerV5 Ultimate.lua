@@ -1166,7 +1166,7 @@ local function monitorPlayer(player)
         }
 
         sendWebhook(embed)
-        print(""")
+        print("")
     end)
 end
 
