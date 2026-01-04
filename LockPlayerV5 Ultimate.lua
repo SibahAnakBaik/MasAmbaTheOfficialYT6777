@@ -8,6 +8,9 @@ local StarterGui = game:GetService("StarterGui")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local player = Players.LocalPlayer
 
+local RE = ReplicatedStorage:WaitForChild("RE")
+local remote = RE:WaitForChild("1NoMoto1rVehicle1s")
+
 -- ScreenGui
 local gui = Instance.new("ScreenGui")
 gui.Name = "LockPlayerV5"
