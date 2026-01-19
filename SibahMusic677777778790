@@ -1,1 +1,207 @@
-loadstring(game:HttpGet("https://pastefy.app/GPEmjn3n/raw"))()
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local player = Players.LocalPlayer
+
+local RE = ReplicatedStorage:WaitForChild("RE")
+local remote = RE:WaitForChild("1NoMoto1rVehicle1s")
+
+-- ScreenGui Setup
+local gui = Instance.new("ScreenGui")
+gui.Name = "SibahMusic_Manual"
+gui.ResetOnSpawn = false
+gui.Parent = player:WaitForChild("PlayerGui")
+
+-- Drag Function
+local function dragify(frame)
+    local dragToggle, dragInput, dragStart, startPos
+    frame.InputBegan:Connect(function(input)
+        if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then
+            dragToggle = true; dragStart = input.Position; startPos = frame.Position
+            input.Changed:Connect(function() if input.UserInputState == Enum.UserInputState.End then dragToggle = false end end)
+        end
+    end)
+    UserInputService.InputChanged:Connect(function(input)
+        if dragToggle and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+            local delta = input.Position - dragStart
+            frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+        end
+    end)
+end
+
+-- gui
+local musicFrame = Instance.new("Frame", gui)
+musicFrame.Size = UDim2.new(0, 0, 0, 0)
+musicFrame.Position = UDim2.new(0.5, -160, 0.5, -150)
+musicFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 22)
+musicFrame.ClipsDescendants = true
+musicFrame.Visible = true
+Instance.new("UICorner", musicFrame).CornerRadius = UDim.new(0, 15)
+local mainStroke = Instance.new("UIStroke", musicFrame)
+mainStroke.Color = Color3.fromRGB(0, 200, 255)
+mainStroke.Thickness = 2
+dragify(musicFrame)
+
+local titleM = Instance.new("TextLabel", musicFrame)
+titleM.Size = UDim2.new(1, 0, 0, 45)
+titleM.Text = "SibahMusic | Need GamePass!"
+titleM.TextColor3 = Color3.fromRGB(0, 255, 255)
+titleM.Font = Enum.Font.GothamBold
+titleM.TextSize = 16
+titleM.BackgroundTransparency = 1
+
+local closeBtn = Instance.new("TextButton", musicFrame)
+closeBtn.Size = UDim2.new(0, 30, 0, 30)
+closeBtn.Position = UDim2.new(1, -35, 0, 7)
+closeBtn.Text = "×"
+closeBtn.TextColor3 = Color3.fromRGB(255, 50, 50)
+closeBtn.TextSize = 25
+closeBtn.BackgroundTransparency = 1
+closeBtn.Font = Enum.Font.GothamBold
+
+-- input cods
+local idBox = Instance.new("TextBox", musicFrame)
+idBox.Size = UDim2.new(0.9, 0, 0, 45)
+idBox.Position = UDim2.new(0.05, 0, 0, 55)
+idBox.PlaceholderText = "Enter Music ID Here..."
+idBox.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+idBox.TextColor3 = Color3.new(1, 1, 1)
+idBox.Font = Enum.Font.Gotham
+idBox.TextSize = 14
+Instance.new("UICorner", idBox)
+
+-- list
+local scroll = Instance.new("ScrollingFrame", musicFrame)
+scroll.Size = UDim2.new(0.9, 0, 0, 120)
+scroll.Position = UDim2.new(0.05, 0, 0, 110)
+scroll.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
+scroll.ScrollBarThickness = 3
+Instance.new("UICorner", scroll)
+local layout = Instance.new("UIListLayout", scroll)
+layout.Padding = UDim.new(0, 5)
+
+-- play button
+local playBtn = Instance.new("TextButton", musicFrame)
+playBtn.Size = UDim2.new(0.9, 0, 0, 45)
+playBtn.Position = UDim2.new(0.05, 0, 0, 240)
+playBtn.Text = "PLAY"
+playBtn.BackgroundColor3 = Color3.fromRGB(0, 100, 255)
+playBtn.TextColor3 = Color3.new(1, 1, 1)
+playBtn.Font = Enum.Font.GothamBold
+playBtn.TextSize = 18
+Instance.new("UICorner", playBtn)
+
+-- song code
+
+local mySongs = {
+    ["Tabola bale"] = "104207837699519",
+    ["Yali Yali"] = "119822943881590",
+    ["Ya odna"] = "77759116439066",
+    ["Alone"] = "109149632133821",
+    ["sirkel"] = "129988226070628",
+    ["dj fell love only"] = "104177688386014",
+    ["Burning World"] = "111351357978027",
+    ["Mendisco"] = "81122165966323",
+    ["Ade Sunika"] = "132497938577328",
+    ["Where we are"] = "118538313029983",
+    ["Maimunah"] = "101351410845508",
+    ["fataros"] = "130721206402716",
+    ["garam madu"] = "89831490305285",
+    ["culik aku dong"] = "119254319180287",
+    ["Dola Dola"] = "139590201617508",
+    ["kita usahakan lagi"] = "96077163288111",
+    ["coba coba"] = "77533933904801",
+    ["letero funk"] = "99409598156364",
+    ["sakit hati tapi maublagi"] = "129242837691990",
+    ["Pong Pong Enak"] = "90471492509215",
+    ["Tum Taa"] = "81815887995149",
+    ["DJ Put Hon FullBass"] = "85427648559465",
+    ["Passo Bem Solto"] = "119936139925486",
+    ["cipi cipi capa capa"] = "16190783444",
+    ["Avangard 2.0"] = "91825664919227",
+    ["BreakDutch Vip"] = "82162714102729",
+    ["da michinotfounds hardtekk"] = "131532804085254",
+    ["Rusashka Ultrafunk (Slowed)"] = "95248559316142",
+    ["Candyland"] = "71885597005603",
+    ["Welcome Discotic"] = "100614335182513",
+    ["Kangen banget"] = "106291412410472",
+    ["CUTEMAKMAK (Slowed)"] = "120871403922972",
+    ["Baby Shark"] = "131822907093877",
+    ["adalah pokoknya"] = "16662832435",
+    ["gatau"] = "7777392893",
+    ["hogo funk"] = "112143944982807",
+    ["asede kontol"] = "4004629054",
+    [" NOTHING BEATS JEAT"] = "79928677555141",
+    [" DJ SO ASUI KONTOL"] = "115832485029273",
+    ["Bintang 5 tapi ku bukan utama"] = "134435445558993",
+    ["Jangan calling aku 🤬"] = "101244701122281",
+    ["DJ CINNAMON GIRL"] = "135018311294635",
+    ["Useless"] = "105560839345019",
+    [" XE FUNK "] = "131415306381990",
+    [" fly away "] = "105059799927487",
+    [" Unity "] = "71225819538909",
+    ["Jackpot"] = "108531350726198",
+    ["Jumpstyle adalah pokoknya"] = "120785124326826",
+    [" Tutorial 🤬 "] = "114709169386339",
+    [" i'm beggin "] = "116319055329754",
+    ["woi berisik 😡"] = "114503635653276",
+    [" monster adalah pokoknya"] = "100976902285463",
+    ["dimambu jambu aer"] = "131094825741877",
+    ["HardStyle"] = "88691296316236",
+    [" sholawat "] = "116250144304115",
+    [" be closer "] = "111611224392490",
+    [" Aku Tetap Cinta "] = "138399521757966",
+    [" ARIA "] = "97785104909396",
+    [" Berdua lebih baik "] = "88530410077744",
+    ["para pejuang fb pro"] ="120857271383882",
+    [" cheap thrills 888 "] = "115492336583856",
+    ["sedia aku sebelum hujan"] = "136681353220472",
+    [" love story "] = "107341259483191",
+}
+
+local function addManualSong(name, id)
+    local btn = Instance.new("TextButton", scroll)
+    btn.Size = UDim2.new(1, -10, 0, 35)
+    btn.BackgroundColor3 = Color3.fromRGB(45, 45, 60)
+    btn.Text = "  " .. name .. " [" .. id .. "]"
+    btn.TextColor3 = Color3.new(1, 1, 1)
+    btn.Font = Enum.Font.Gotham
+    btn.TextSize = 11
+    btn.TextXAlignment = Enum.TextXAlignment.Left
+    Instance.new("UICorner", btn)
+    
+    btn.MouseButton1Click:Connect(function()
+        idBox.Text = id
+    end)
+end
+
+for name, id in pairs(mySongs) do
+    addManualSong(name, id)
+end
+scroll.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y)
+
+-- play
+
+playBtn.MouseButton1Click:Connect(function()
+    local id = idBox.Text:gsub("%D", "")
+    if id == "" then return end
+    
+    pcall(function()
+        remote:FireServer("SkateBoard") 
+        task.wait(0.4)
+        remote:FireServer("PickingScooterMusicText", id)
+    end)
+end)
+
+closeBtn.MouseButton1Click:Connect(function()
+    local shrink = TweenService:Create(musicFrame, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.In), {Size = UDim2.new(0, 0, 0, 0)})
+    shrink:Play()
+    shrink.Completed:Connect(function() gui:Destroy() end)
+end)
+
+local function init()
+    TweenService:Create(musicFrame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Size = UDim2.new(0, 320, 0, 300)}):Play()
+end
+
+init()
