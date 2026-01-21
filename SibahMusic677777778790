@@ -1,3 +1,7 @@
+2.new(0, 320, 0, 300)}):Play()
+end
+
+init()
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
@@ -158,6 +162,11 @@ local mySongs = {
     [" cheap thrills 888 "] = "115492336583856",
     ["sedia aku sebelum hujan"] = "136681353220472",
     [" love story "] = "107341259483191",
+    [" Slaughter "] = "86322376706738",
+    [" Kasih Paham Boss "] = "123476716998589",
+    ["horeg loh ya"] = "138855459428424",
+    [" serem lah pokoknya "] = "82149511707056",
+    [" with just with just "] = "138943862967286",
 }
 
 local function addManualSong(name, id)
