@@ -1,7 +1,4 @@
-2.new(0, 320, 0, 300)}):Play()
-end
 
-init()
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
