@@ -94,7 +94,6 @@ playBtn.TextSize = 18
 Instance.new("UICorner", playBtn)
 
 -- song code
-
 local mySongs = {
     ["Tabola bale"] = "104207837699519",
     ["Yali Yali"] = "119822943881590",
@@ -164,6 +163,10 @@ local mySongs = {
     ["horeg loh ya"] = "138855459428424",
     [" serem lah pokoknya "] = "82149511707056",
     [" with just with just "] = "138943862967286",
+    ["DJ Vacation"] = "116525313479094",
+    [" Toma Toma "] = "132117655274084",
+    [" DJ dracin "] = "82399298257915",
+    [" DJ terompet "] = "84430849761882",
 }
 
 local function addManualSong(name, id)
