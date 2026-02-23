@@ -8,13 +8,11 @@ local player = Players.LocalPlayer
 local RE = ReplicatedStorage:WaitForChild("RE")
 local remote = RE:WaitForChild("1NoMoto1rVehicle1s")
 
--- ScreenGui Setup
 local gui = Instance.new("ScreenGui")
 gui.Name = "SibahMusic_Manual"
 gui.ResetOnSpawn = false
 gui.Parent = player:WaitForChild("PlayerGui")
 
--- Drag Function
 local function dragify(frame)
     local dragToggle, dragInput, dragStart, startPos
     frame.InputBegan:Connect(function(input)
@@ -31,7 +29,6 @@ local function dragify(frame)
     end)
 end
 
--- gui
 local musicFrame = Instance.new("Frame", gui)
 musicFrame.Size = UDim2.new(0, 0, 0, 0)
 musicFrame.Position = UDim2.new(0.5, -160, 0.5, -150)
@@ -61,7 +58,6 @@ closeBtn.TextSize = 25
 closeBtn.BackgroundTransparency = 1
 closeBtn.Font = Enum.Font.GothamBold
 
--- input cods
 local idBox = Instance.new("TextBox", musicFrame)
 idBox.Size = UDim2.new(0.9, 0, 0, 45)
 idBox.Position = UDim2.new(0.05, 0, 0, 55)
@@ -72,7 +68,6 @@ idBox.Font = Enum.Font.Gotham
 idBox.TextSize = 14
 Instance.new("UICorner", idBox)
 
--- list
 local scroll = Instance.new("ScrollingFrame", musicFrame)
 scroll.Size = UDim2.new(0.9, 0, 0, 120)
 scroll.Position = UDim2.new(0.05, 0, 0, 110)
@@ -82,7 +77,6 @@ Instance.new("UICorner", scroll)
 local layout = Instance.new("UIListLayout", scroll)
 layout.Padding = UDim.new(0, 5)
 
--- play button
 local playBtn = Instance.new("TextButton", musicFrame)
 playBtn.Size = UDim2.new(0.9, 0, 0, 45)
 playBtn.Position = UDim2.new(0.05, 0, 0, 240)
@@ -93,7 +87,6 @@ playBtn.Font = Enum.Font.GothamBold
 playBtn.TextSize = 18
 Instance.new("UICorner", playBtn)
 
--- song code
 local mySongs = {
     ["Tabola bale"] = "104207837699519",
     ["Yali Yali"] = "119822943881590",
@@ -189,8 +182,6 @@ for name, id in pairs(mySongs) do
     addManualSong(name, id)
 end
 scroll.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y)
-
--- play
 
 playBtn.MouseButton1Click:Connect(function()
     local id = idBox.Text:gsub("%D", "")
